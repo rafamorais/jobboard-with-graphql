@@ -1,0 +1,48 @@
+schema {
+  query: Query
+}
+
+type Query {
+  company(id: ID!): Company
+  job(id: ID!): Job
+  jobs(limit: Int, offset: Int): JobSubList
+}
+
+type JobSubList {
+  items: [Job!]
+  totalCount: Int!
+}
+type Mutation {
+  createJob(input: CreateInputJob!): Job
+  deleteJob(id: ID!): Job
+  updateJob(input: UpdateInputJob): Job
+}
+
+type Company {
+  id: ID!
+  name: String!
+  description: String
+  jobs: [Job!]
+}
+
+type Job {
+  id: ID!
+  """
+  The __date__ when the job was published, in ISO-8601 format. E.g '2022-12-31'.
+  """
+  date: String!
+  title: String!
+  company: Company!
+  description: String
+}
+
+input CreateInputJob {
+  title: String!
+  description: String
+}
+
+input UpdateInputJob {
+  id: ID!
+  title: String!
+  description: String
+}
